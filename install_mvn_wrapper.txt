@@ -1,4 +1,4 @@
 "mvn -N io.takari:maven:wrapper" installs the default version of the maven wrapper.  This allows your project to be portable for MVN builds.
 This means whether on Linux or windows, this project can run Maven without the host system having Maven installed.
 
-"mvn -N io.takari:maven:wrapper -Dmaven=3.6.1" allows the specific version to be pulled and installed..
+"mvn -N io.takari:maven:wrapper -Dmaven=3.6.1" allows the specific version to be pulled and installed.
