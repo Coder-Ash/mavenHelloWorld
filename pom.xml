@@ -8,6 +8,14 @@
     <artifactId>hello-world</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+	<dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+    </dependencies>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -15,4 +23,71 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
+    
+    <!-- Section to customize build process by configuring plugin use -->
+    <build>
+	  	<plugins>
+			<!-- Force Maven to perform clean for every build in the Default lifecycle-->
+	  		<plugin>
+	  			<groupId>org.apache.maven.plugins</groupId>
+	  			<artifactId>maven-clean-plugin</artifactId>
+	  			<version>2.5</version>
+	  			<executions>
+	  				<execution>
+	  					<id>auto-clean</id>
+	  					<phase>initialize</phase>
+	  					<goals>
+	  						<goal>clean</goal>
+	  					</goals>
+	  				</execution>
+	  			</executions>
+	  		</plugin>
+			<!--**********************************************************************-->
+
+	  		<!-- Makes jar executable -->
+	  		<plugin>
+	  			<groupId>org.apache.maven.plugins</groupId>
+	  			<artifactId>maven-jar-plugin</artifactId>
+	  			<version>2.4</version>
+	  			<configuration>
+	  				<archive>
+	  					<manifest>
+	  						<addClasspath>true</addClasspath>
+	  						<classpathPrefix>dependency</classpathPrefix> <!-- Creates a dependency folder to store all dependency jars -->
+	  						<mainClass>helloworld.HelloWorld</mainClass>	  						
+	  					</manifest>
+	  				</archive>
+	  			</configuration>
+	  		</plugin>
+			<!--**********************-->
+
+	  		<!-- Copies all dependencies into the dependency location -->
+	  		<!-- Works alongside the maven-jar-plugin -->
+	  		<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-dependency-plugin</artifactId>
+	            <executions>
+	                <execution>
+	                    <id>copy-dependencies</id>
+	                    <phase>package</phase>
+	                    <goals>
+	                        <goal>copy-dependencies</goal>
+	                    </goals>
+	                    <configuration>
+	                        <useBaseVersion>false</useBaseVersion>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
+			<!--******************************************************-->
+
+			<!-- used to override the default version of the site plugin (3.3 version conflict with the maven 3.6.1 version) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.7.1</version>
+			</plugin>
+			<!--*********************************************************************************************-->
+	  	</plugins>
+	  </build>
 </project>
